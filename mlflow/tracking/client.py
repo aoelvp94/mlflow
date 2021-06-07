@@ -11,6 +11,7 @@ import posixpath
 import sys
 import tempfile
 import yaml
+from pathlib import Path
 from typing import Any, Dict, Sequence, List, Optional, Union, TYPE_CHECKING
 
 from mlflow.entities import Experiment, Run, RunInfo, Param, Metric, RunTag, FileInfo, ViewType
@@ -1104,6 +1105,7 @@ class MlflowClient(object):
             # `is_matplotlib_figure` is executed only when `matplotlib` is found in `sys.modules`.
             # This allows logging a `plotly` figure in an environment where `matplotlib` is not
             # installed.
+            Path(tmp_path).parent.mkdir(parents=True, exist_ok=True)
             if "matplotlib" in sys.modules and _is_matplotlib_figure(figure):
                 figure.savefig(tmp_path)
             elif "plotly" in sys.modules and _is_plotly_figure(figure):
